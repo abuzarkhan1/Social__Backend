@@ -79,7 +79,7 @@ public class UserServiceImplementation implements UserService{
         }
         User updatedUser = userRepository.save(oldUser);
         return updatedUser;
-    }
+      }
 
     @Override
     public List<User> searchUser(String query) {

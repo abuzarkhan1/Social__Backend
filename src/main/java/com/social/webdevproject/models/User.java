@@ -1,9 +1,8 @@
 package com.social.webdevproject.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.List;
 @Table(name="users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String firstName;
     private String lastName;
@@ -21,22 +21,34 @@ public class User {
     private List<Integer> followers = new ArrayList<>();
     private List<Integer> followings = new ArrayList<>();
 
+    @JsonIgnore
+    @ManyToMany
+    private List<Post> savedPost = new ArrayList<>();
+
     public User(){
 
     }
-    public  User(Integer id,String firstName, String lastName, String email, String password ){
-        super();
-        this.id= id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.gender = gender;
-        this.followers = followers;
-        this.followings = followings;
 
+    public User(Integer id, List<Post> savedPost, List<Integer> followings, List<Integer> followers, String gender, String password, String email, String lastName, String firstName) {
+        super();
+        this.id = id;
+        this.savedPost = savedPost;
+        this.followings = followings;
+        this.followers = followers;
+        this.gender = gender;
+        this.password = password;
+        this.email = email;
+        this.lastName = lastName;
+        this.firstName = firstName;
     }
 
+    public List<Post> getSavedPost() {
+        return savedPost;
+    }
+
+    public void setSavedPost(List<Post> savedPost) {
+        this.savedPost = savedPost;
+    }
 
     public Integer getId() {
         return id;
