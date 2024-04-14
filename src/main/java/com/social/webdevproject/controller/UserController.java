@@ -36,25 +36,22 @@ public class UserController {
 
 
 
-    @PutMapping("/api/users/{userId}")
-    public User updateUser(@RequestBody User user,@PathVariable Integer userId) throws Exception{
-        User updatedUser = userService.updateUser(user, userId);
+    @PutMapping("/api/users")
+    public User updateUser(@RequestHeader("Authorization") String jwt,@RequestBody User user) throws Exception{
+
+        User reqUser = userService.findUserByJwt(jwt);
+        User updatedUser = userService.updateUser(user,reqUser.getId());
         return updatedUser;
     }
 
 
-    @PutMapping("/api/users/follow/{userId1}/{userId2}")
-    public User followUserHandler(@PathVariable Integer userId1, @PathVariable Integer userId2) throws Exception{
-       User user = userService.followUser(userId1,userId2);
+    @PutMapping("/api/users/follow/{userId2}")
+    public User followUserHandler(@RequestHeader("Authorization") String jwt,@PathVariable Integer userId2) throws Exception{
+        User reqUser = userService.findUserByJwt(jwt);
+       User user = userService.followUser(reqUser.getId(),userId2);
        return user;
     }
 
-
-    @GetMapping("/api/users/search")
-    public List<User> searchUser(@RequestParam("query") String query){
-        List<User> users = userService.searchUser(query);
-        return users;
-    }
 
     @DeleteMapping("users/{userId}")
     public String deleteUser(@PathVariable Integer userId) throws Exception{
@@ -65,5 +62,23 @@ public class UserController {
         userRepository.delete(user.get());
         return "user deleted successfully with id " + userId;
     }
-}
 
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    @GetMapping("/api/users/search")
+    public List<User> searchUser(@RequestParam("query") String query){
+        List<User> users = userService.searchUser(query);
+        return users;
+    }
+
+    @GetMapping("/api/users/profile")
+    public User getUserFromToken(@RequestHeader("Authorization") String jwt){
+
+        User user = userService.findUserByJwt(jwt);
+
+        user.setPassword(null);
+        return user;
+    }
+}

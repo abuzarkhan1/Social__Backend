@@ -28,8 +28,8 @@ public class AppConfig {
         return  http.build();
 
     }
-    @Bean
-    PasswordEncoder passwordEncoder() {
+@Bean
+PasswordEncoder passwordEncoder() {
         return  new BCryptPasswordEncoder();
     }
 

@@ -2,7 +2,7 @@ package com.social.webdevproject.response;
 
 public class AuthResponse {
     private String token;
-    public String message;
+    private String message;
 
 
     public AuthResponse () {
