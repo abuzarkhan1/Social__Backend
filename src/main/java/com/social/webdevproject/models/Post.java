@@ -24,12 +24,15 @@ public class Post {
     @OneToMany
     private List<User> liked = new ArrayList<>();
 
+    @OneToMany
+    private List<Comment> comments = new ArrayList<>();
 
     public  Post() {
 
     }
 
-    public Post(Integer id, String caption, String image, String video, LocalDateTime createdAt, User user, List<User> liked) {
+    public Post(Integer id, String caption, String image, String video, LocalDateTime createdAt,
+                User user, List<User> liked ,List<Comment> comments) {
         super();
         this.id = id;
         this.caption = caption;
@@ -38,6 +41,7 @@ public class Post {
         this.createdAt = createdAt;
         this.user = user;
         this.liked = liked;
+        this.comments = comments;
     }
 
     public Integer getId() {
@@ -95,5 +99,13 @@ public class Post {
 
     public void setLiked(List<User> liked) {
         this.liked = liked;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
