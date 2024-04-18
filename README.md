@@ -1,1 +1,1 @@
-Social Project in SpringBoot
+Social Media Project in SpringBoot
